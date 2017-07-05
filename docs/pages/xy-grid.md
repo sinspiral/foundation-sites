@@ -4,6 +4,11 @@ description: A fully reworked new grid system in v6.4 which has all the variety 
 sass: scss/xy-grid/*.scss
 ---
 
+<div class="callout training-callout">
+  <p>The XY Grid is huge advancement in Grids. Stay up-to-date with all the new features in Foundation 6.4 with our online webinar training. You’ll come away knowing the ins and outs of the XY Grid to create complex layouts faster and with less code. Not to mention all the useful UI components and Foundation JavaScript you’ll learn. You’ll make your coworkers jealous.</p>
+  <a href="http://zurb.com/university/foundation-intro" target="_blank">Don’t miss out on the upcoming Foundation trainings →</a>
+</div>
+
 ## XY Grid Basics
 
 The XY grid works very similarly to the standard float grid, but includes a number of useful features only possible with Flexbox, like horizontal and vertical alignment, automatic sizing and a full vertical grid.
@@ -23,7 +28,6 @@ If you're using the CSS version of Foundation, you can generate a <a href="https
 ```scss
 @import 'foundation';
 
-@include xy-grid;
 @include foundation-xy-grid-classes;
 ```
 
@@ -71,18 +75,18 @@ The structure of XY grid uses `.grid-x`, `.grid-y`, and `.cell` as its base. Wit
 ## Gutters
 
 The defining feature of the XY grid is the ability to use margin AND padding grids in harmony.
-To define a grid type, simple set `.margin-gutters` or `.padding-gutters` on the grid.
+To define a grid type, simple set `.grid-margin-x` or `.grid-padding-x` on the grid.
 
 <div class="docs-codepen-container">
 <a class="codepen-logo-link" href="https://codepen.io/ZURBFoundation/pen/owvqYp?editors=1000" target="_blank"><img src="{{root}}assets/img/logos/edit-in-browser.svg" class="" height="" width="" alt="edit on codepen button"></a>
 </div>
 
 ```html_example
-<div class="grid-x margin-gutters">
+<div class="grid-x grid-margin-x">
   <div class="medium-6 large-4 cell">12/6/4 cells</div>
   <div class="medium-6 large-8 cell">12/6/8 cells</div>
 </div>
-<div class="grid-x padding-gutters">
+<div class="grid-x grid-padding-x">
   <div class="medium-6 large-4 cell">12/6/4 cells</div>
   <div class="medium-6 large-8 cell">12/6/8 cells</div>
 </div>
@@ -102,6 +106,21 @@ The grid defaults to the full width of its container. In order to contain the gr
   </div>
 </div>
 ```
+
+By default, the container will be centered and have a max-width equal to your
+`$max-width` setting (1200px by default), and be flush to the screen for widths
+below that. If you want to add padding below the `$max-width`, simply add the
+`.grid-container-padded` class to your grid container.
+
+```html
+<div class="grid-container grid-container-padded">
+  <div class="grid-x">
+    <div class="cell small-4">cell</div>
+    <div class="cell small-4">cell</div>
+    <div class="cell small-4">cell</div>
+  </div>
+</div>
+```
 ---
 
 ## Auto Sizing
@@ -109,7 +128,7 @@ The grid defaults to the full width of its container. In order to contain the gr
 If the class `.auto` or `.[size]-auto` is added to the cell, it will take up the remaining space.
 
 ```html_example
-<div class="grid-x margin-gutters">
+<div class="grid-x grid-margin-x">
   <div class="small-4 cell">4 cells</div>
   <div class="auto cell">Whatever's left!</div>
 </div>
@@ -120,7 +139,7 @@ If the class `.auto` or `.[size]-auto` is added to the cell, it will take up the
 Multiple expanding cells will share the leftover space equally.
 
 ```html_example
-<div class="grid-x margin-gutters">
+<div class="grid-x grid-margin-x">
   <div class="small-4 cell">4 cells</div>
   <div class="auto cell">Whatever's left!</div>
   <div class="auto cell">Whatever's left!</div>
@@ -132,7 +151,7 @@ Multiple expanding cells will share the leftover space equally.
 A cell can also be made to *shrink*, by adding the `.shrink` or `.[size]-shrink` class. This means it will only take up the space its contents need.
 
 ```html_example
-<div class="grid-x margin-gutters">
+<div class="grid-x grid-margin-x">
   <div class="shrink cell">Shrink!</div>
   <div class="auto cell">Expand!</div>
 </div>
@@ -159,12 +178,12 @@ To switch back to the auto behavior from a percentage or shrink behavior, use th
 
 ## Collapse Cells
 
-The `.[size]-[margin-type]-collapse` class lets you remove cell gutters.
+The `.[size]-[gutter-type]-collapse` class lets you remove cell gutters.
 
 There are times when you won't want each media query to be collapsed. In this case, use the media query size you want and collapse and add that to your grid element. Example shows gutters at small and no gutters on medium and up.
 
 ```html_example
-<div class="grid-x margin-gutters medium-margin-collapse">
+<div class="grid-x grid-margin-x medium-margin-collapse">
   <div class="small-6 cell">
     Gutters at small no gutters at medium.
   </div>
@@ -181,7 +200,7 @@ There are times when you won't want each media query to be collapsed. In this ca
 Offsets work by applying `margin-left` (or `margin-top` for a vertical grid) to a grid.
 
 ```html_example
-<div class="grid-x margin-gutters">
+<div class="grid-x grid-margin-x">
   <div class="small-4 large-offset-2 cell">Offset 2 on large</div>
   <div class="small-4 cell">4 cells</div>
 </div>
@@ -192,7 +211,9 @@ Offsets work by applying `margin-left` (or `margin-top` for a vertical grid) to 
 ## Vertical Grids
 
 The XY grid also supports vertical grids. Simply apply `.grid-y` instead of `.grid-x`.
-The internal cells will shift automatically to provide spacing vertically rather than horizontally
+The internal cells will shift automatically to provide spacing vertically rather than horizontally.
+
+You can also apply margin or padding with `.grid-margin-y` and `.grid-padding-y` to apply spacing to the top and bottom of cells.
 
 <div class="callout">
   <p>Please note for vertical grids to work, the grid needs a height. You can also use [grid frame](#grid-frame) to create a 100 vertical height grid (or 100% height if nested).</p>
@@ -228,9 +249,9 @@ Here's an example of what you can do:
 
 ```html_example
 <div class="grid-y medium-grid-frame">
-  <div class="cell shrink header cell-block-container">
+  <div class="cell shrink header medium-cell-block-container">
     <h1>Grid Frame Header</h1>
-    <div class="grid-x padding-gutters">
+    <div class="grid-x grid-padding-x">
       <div class="cell medium-4">
         A medium 4 cell
       </div>
@@ -242,8 +263,8 @@ Here's an example of what you can do:
       </div>
     </div>
   </div>
-  <div class="cell auto cell-block-container">
-    <div class="grid-x padding-gutters">
+  <div class="cell medium-auto medium-cell-block-container">
+    <div class="grid-x grid-padding-x">
       <div class="cell medium-4 medium-cell-block-y">
         <h2>Independent scrolling sidebar</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
@@ -268,3 +289,121 @@ Here's an example of what you can do:
 ```
 
 ---
+
+## Building Semantically
+
+XY grid CSS is generated with a powerful set of Sass mixins, which you can use in your own code to build a semantic grid.
+
+### Grid Container
+
+Use the `xy-grid-container()` mixin to create a grid container. This contains the grid to the width specified in `$grid-container`.
+
+```scss
+.container {
+  @include xy-grid-container;
+}
+```
+---
+
+### Grids
+
+Use the `xy-grid()` mixin to create a grid.
+
+```scss
+.my-grid {
+  @include xy-grid;
+}
+```
+---
+
+### Gutters
+
+Use the `xy-gutters()` mixin to add gutters to an item. The `xy-cell` mixin used this to output gutters, but you can use this to add responsive gutters to anything you like.
+This is especially powerful as you can specify where you want the gutters, like so:
+
+```scss
+.gallery-item {
+  @include xy-gutters($gutter-position: left right bottom);
+}
+```
+---
+
+### Cells
+
+Use the `xy-cell()` mixin to create a cell. There are a number of ways to define the size of a cell.
+`xy-cell` accepts a few different keywords as well as specific sizes: `full` (full width), `auto` (automatic width) and `shrink` (take up only the space it needs).
+
+```scss
+.main-content {
+  // Use the full column count (100%)
+  @include xy-cell();
+
+  // Use a column count (33%);
+  @include xy-cell(4);
+
+  // Use a percentage (15%)
+  @include xy-cell(15%);
+
+  // Use a custom fraction (20%)
+  @include xy-cell(1 of 5);
+}
+```
+
+The cell size calculator can also be accessed as a function. This gives you the percentage value, without any of the grid cell CSS.
+
+```scss
+.main-content {
+  width: xy-cell-size(1 of 7);
+}
+```
+
+---
+
+### Responsive Grids
+
+Pair `xy-cell` with the `breakpoint()` mixin to make your grid responsive.
+Refer to the Sass documentation below to learn how each mixin works and the available arguements.
+
+```scss
+.main-content {
+  @include xy-cell();
+
+  @include breakpoint(medium) {
+    @include xy-cell(8);
+  }
+}
+```
+
+We also have a shorthand option for the above which outputs the same CSS:
+
+```scss
+.main-content {
+  @include xy-cell-breakpoints((small: full, medium: 8));
+}
+```
+
+### Custom Block Grid
+
+Use the `xy-grid-layout()` mixin to create your own block grid.
+By default the mixin takes 2 parameters:
+- number of columns
+- child selector
+
+Refer to the Sass documentation [below](#xy-grid-layout) for the full list of arguments.
+
+Here's an example:
+
+```scss
+.gallery {
+  @include xy-grid-layout(3, '.gallery-item');
+}
+```
+That outputs this CSS:
+
+```
+.gallery > .gallery-item {
+  width: calc(33.33333% - 1.25rem);
+  margin-right: 0.625rem;
+  margin-left: 0.625rem;
+}
+```

@@ -23,12 +23,14 @@ class Slider extends Plugin {
   /**
    * Creates a new instance of a slider control.
    * @class
+   * @name Slider
    * @param {jQuery} element - jQuery object to make into a slider control.
    * @param {Object} options - Overrides to the default plugin settings.
    */
   _setup(element, options) {
     this.$element = element;
     this.options = $.extend({}, Slider.defaults, this.$element.data(), options);
+    this.className = 'Slider'; // ie9 back compat
 
   // Touch and Triggers inits are idempotent, we just need to make sure it's initialied.
     Touch.init($);

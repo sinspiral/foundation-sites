@@ -168,6 +168,7 @@ var DropdownMenu = function (_Plugin) {
     /**
      * Creates a new instance of DropdownMenu.
      * @class
+     * @name DropdownMenu
      * @fires DropdownMenu#init
      * @param {jQuery} element - jQuery object to make into a dropdown menu.
      * @param {Object} options - Overrides to the default plugin settings.
@@ -175,6 +176,7 @@ var DropdownMenu = function (_Plugin) {
     value: function _setup(element, options) {
       this.$element = element;
       this.options = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend({}, DropdownMenu.defaults, this.$element.data(), options);
+      this.className = 'DropdownMenu'; // ie9 back compat
 
       __WEBPACK_IMPORTED_MODULE_2__foundation_util_nest__["Nest"].Feather(this.$element, 'dropdown');
       this._init();
@@ -227,7 +229,12 @@ var DropdownMenu = function (_Plugin) {
   }, {
     key: '_isVertical',
     value: function _isVertical() {
-      return this.$tabs.css('display') === 'block';
+      return this.$tabs.css('display') === 'block' || this.$element.css('flex-direction') === 'column';
+    }
+  }, {
+    key: '_isRtl',
+    value: function _isRtl() {
+      return this.$element.hasClass('align-right') || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__foundation_util_core__["rtl"])() && !this.$element.hasClass('align-left');
     }
 
     /**
@@ -367,7 +374,7 @@ var DropdownMenu = function (_Plugin) {
         if (isTab) {
           if (_this._isVertical()) {
             // vertical menu
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__foundation_util_core__["rtl"])()) {
+            if (_this._isRtl()) {
               // right aligned
               __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend(functions, {
                 down: nextSibling,
@@ -386,7 +393,7 @@ var DropdownMenu = function (_Plugin) {
             }
           } else {
             // horizontal menu
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__foundation_util_core__["rtl"])()) {
+            if (_this._isRtl()) {
               // right aligned
               __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend(functions, {
                 next: prevSibling,
@@ -406,7 +413,7 @@ var DropdownMenu = function (_Plugin) {
           }
         } else {
           // not tabs -> one sub
-          if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__foundation_util_core__["rtl"])()) {
+          if (_this._isRtl()) {
             // right aligned
             __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.extend(functions, {
               next: closeSub,

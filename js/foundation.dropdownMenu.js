@@ -20,6 +20,7 @@ class DropdownMenu extends Plugin {
   /**
    * Creates a new instance of DropdownMenu.
    * @class
+   * @name DropdownMenu
    * @fires DropdownMenu#init
    * @param {jQuery} element - jQuery object to make into a dropdown menu.
    * @param {Object} options - Overrides to the default plugin settings.
@@ -27,6 +28,7 @@ class DropdownMenu extends Plugin {
   _setup(element, options) {
     this.$element = element;
     this.options = $.extend({}, DropdownMenu.defaults, this.$element.data(), options);
+    this.className = 'DropdownMenu'; // ie9 back compat
 
     Nest.Feather(this.$element, 'dropdown');
     this._init();
@@ -75,7 +77,11 @@ class DropdownMenu extends Plugin {
   };
 
   _isVertical() {
-    return this.$tabs.css('display') === 'block';
+    return this.$tabs.css('display') === 'block' || this.$element.css('flex-direction') === 'column';
+  }
+
+  _isRtl() {
+    return this.$element.hasClass('align-right') || (Rtl() && !this.$element.hasClass('align-left'));
   }
 
   /**
@@ -203,7 +209,7 @@ class DropdownMenu extends Plugin {
 
       if (isTab) {
         if (_this._isVertical()) { // vertical menu
-          if (Rtl()) { // right aligned
+          if (_this._isRtl()) { // right aligned
             $.extend(functions, {
               down: nextSibling,
               up: prevSibling,
@@ -219,7 +225,7 @@ class DropdownMenu extends Plugin {
             });
           }
         } else { // horizontal menu
-          if (Rtl()) { // right aligned
+          if (_this._isRtl()) { // right aligned
             $.extend(functions, {
               next: prevSibling,
               previous: nextSibling,
@@ -236,7 +242,7 @@ class DropdownMenu extends Plugin {
           }
         }
       } else { // not tabs -> one sub
-        if (Rtl()) { // right aligned
+        if (_this._isRtl()) { // right aligned
           $.extend(functions, {
             next: closeSub,
             previous: openSub,

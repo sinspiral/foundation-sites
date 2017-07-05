@@ -24,12 +24,14 @@ class Orbit extends Plugin {
   /**
   * Creates a new instance of an orbit carousel.
   * @class
+  * @name Orbit
   * @param {jQuery} element - jQuery object to make into an Orbit Carousel.
   * @param {Object} options - Overrides to the default plugin settings.
   */
   _setup(element, options){
     this.$element = element;
     this.options = $.extend({}, Orbit.defaults, this.$element.data(), options);
+    this.className = 'Orbit'; // ie9 back compat
 
     Touch.init($); // Touch init is idempotent, we just need to make sure it's initialied.
 
